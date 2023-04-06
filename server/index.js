@@ -6,6 +6,7 @@ import morgan from "morgan";
 import category from "./routes/category.js";
 import user from "./routes/user.js";
 import cart from "./routes/cart.js";
+import product from "./routes/product.js";
 
 
 
@@ -29,12 +30,11 @@ app.use(express.json())
 // router
 
 
-
 app.use("/api", auth);
 app.use("/api", category)
+app.use("/api", product)
 app.use("/api", user)
 app.use("/api", cart)
-
 
 app.listen(8000, () => { console.log("localhost:8000") })
 
