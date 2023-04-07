@@ -40,7 +40,7 @@ export const login = async (req, res) => {
             const equalsEmail = await User.findOne({ email })
             if (!equalsEmail) { return res.json({ error: "user not found" }) }
             const { match } = comparePassword(password, equalsEmail.password);
-            if (!{ match }) {
+            if (!match) {
                 return res.json({ error: "user not found" });
             }
             const token = jwt.sign({ _id: equalsEmail._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
