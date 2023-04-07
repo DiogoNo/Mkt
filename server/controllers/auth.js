@@ -39,10 +39,12 @@ export const login = async (req, res) => {
         } else {
             const equalsEmail = await User.findOne({ email })
             if (!equalsEmail) { return res.json({ error: "user not found" }) }
-            const { match } = comparePassword(password, equalsEmail.password);
+
+            const match = await comparePassword(password, equalsEmail.password);
             if (!match) {
-                return res.json({ error: "user not found" });
+                return res.json({ error: "user not founde" });
             }
+
             const token = jwt.sign({ _id: equalsEmail._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
             res.json({ user: { name: equalsEmail.name, email: equalsEmail.email, role: equalsEmail.role, address: equalsEmail.address }, token });
         }

@@ -7,8 +7,7 @@ import category from "./routes/category.js";
 import user from "./routes/user.js";
 import cart from "./routes/cart.js";
 import product from "./routes/product.js";
-
-
+import cors from "cors";
 
 const app = express();
 
@@ -24,11 +23,11 @@ mongoose.connect(process.env.BASEURL, {
 }).then(() => console.log("connect")).catch((err) => console.log(("foi nao"), err));
 
 //middlewares
+app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
 
 // router
-
 
 app.use("/api", auth);
 app.use("/api", category)
