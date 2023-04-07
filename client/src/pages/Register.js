@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 const Register = () => {
     const [name, setName] = useState('')
@@ -53,9 +53,7 @@ const Register = () => {
 
                 <button className="btn btn-primary" type="submit">Submit</button>
             </form>
-
-            <Toaster />
-        </div >
+        </div>
     );
 }
 
