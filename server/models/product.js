@@ -25,7 +25,7 @@ const productSchema = new Schema({
     },
     category: {
         type: ObjectId,
-        ref: "Categoty",
+        ref: "Category",
         required: true,
     },
     quantity: {
@@ -43,8 +43,6 @@ const productSchema = new Schema({
         required: false,
         type: Boolean
     }
-
-
 }, { timestamps: true });
 
 export default mongoose.model("Product", productSchema);
