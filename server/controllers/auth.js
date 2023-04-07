@@ -39,7 +39,7 @@ export const login = async (req, res) => {
         } else {
             const equalsEmail = await User.findOne({ email })
             if (!equalsEmail) { return res.json({ error: "user not found" }) }
-            const match = await comparePassword(password, equalsEmail.password);
+            const { match } = comparePassword(password, equalsEmail.password);
             if (!match) {
                 return res.json({ error: "user not found" });
             }
