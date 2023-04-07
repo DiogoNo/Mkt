@@ -8,7 +8,7 @@ router.post('/category', create);
 router.put('/category/:categoryId', requireSingin, isAdmin, update);
 router.delete('/category/:categoryId', requireSingin, isAdmin, remove);
 router.get('/category/:slug', read)
-router.get('/categories', list);
+router.get('/categories', requireSingin, isAdmin, list);
 
 
 export default router;
