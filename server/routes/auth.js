@@ -5,6 +5,9 @@ const router = express.Router();
 
 router.post('/register', register);
 router.post('/login', login);
+router.get('/auth-check', requireSingin, (req, res) => {
+  res.json({ ok: true });
+});
 
 router.get('/secret', requireSingin, isAdmin, secret);
 
