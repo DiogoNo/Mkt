@@ -15,7 +15,7 @@ const Register = () => {
             });
 
             if (data?.error) {
-                toast.error('Não registrado.')
+                toast.error(data?.error)
             } else {
                 toast.success("registrado")
             }
