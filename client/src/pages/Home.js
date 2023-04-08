@@ -1,7 +1,11 @@
+import { useAuth } from "../context/auth";
+
 const Home = () => {
+  const [auth, setAuth] = useAuth();
+
   return (
     <div className="App">
-      <p>Eae essa gealera.</p>
+      <p></p>
     </div>
   );
 };
