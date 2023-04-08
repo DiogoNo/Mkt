@@ -29,7 +29,7 @@ const Register = () => {
         localStorage.setItem("auth", JSON.stringify(data));
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("registrado");
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       toast.error("Erro ao cadastrar");

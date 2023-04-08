@@ -24,7 +24,7 @@ const Login = () => {
         localStorage.setItem("auth", JSON.stringify(data));
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Logado");
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       toast.error("Erro ao Logar");
