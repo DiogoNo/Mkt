@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
+import Loading from "./loading";
 
 const PrivateRoute = () => {
   const [auth, setAuth] = useAuth();
@@ -9,24 +10,17 @@ const PrivateRoute = () => {
 
   useEffect(() => {
     const authCheck = async () => {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/auth-check`,
-        {
-          headers: {
-            Authorization: auth?.token,
-          },
-        }
-      );
+      const { data } = await axios.get(`/auth-check`);
       if (data.ok) {
         setOk(true);
       } else {
         setOk(false);
       }
     };
-    authCheck();
+    if (auth?.token) authCheck();
   }, [auth?.token]);
 
-  return ok ? <Outlet /> : "loading";
+  return ok ? <Outlet /> : <Loading />;
 };
 
 export default PrivateRoute;
