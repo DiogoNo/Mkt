@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 const AdminDashboard = () => {
@@ -5,7 +6,12 @@ const AdminDashboard = () => {
 
   return (
     <div className="App">
-      <p>dashboard aaaa</p>
+      <NavLink className="nav-link" to="/dashboard/admin/category">
+        CreateCategory
+      </NavLink>
+      <NavLink className="nav-link" to="/dashboard/admin/product">
+        CreateProduct
+      </NavLink>
     </div>
   );
 };
