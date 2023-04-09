@@ -33,11 +33,21 @@ const NavBar = () => {
             </li>
           </>
         ) : (
-          <li className="nav-item">
-            <NavLink className="nav-link" onClick={logout}>
-              Logout
-            </NavLink>
-          </li>
+          <>
+            <li className="nav-item">
+              <NavLink
+                className="nav-link"
+                to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+              >
+                Dashboard
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" onClick={logout}>
+                Logout
+              </NavLink>
+            </li>
+          </>
         )}
       </ul>
     </nav>
