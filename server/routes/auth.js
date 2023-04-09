@@ -8,7 +8,9 @@ router.post('/login', login);
 router.get('/auth-check', requireSingin, (req, res) => {
   res.json({ ok: true });
 });
-
+router.get('/admin-check', requireSingin, isAdmin, (req, res) => {
+  res.json({ ok: true });
+});
 router.get('/secret', requireSingin, isAdmin, secret);
 
 export default router;

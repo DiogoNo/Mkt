@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast";
 import NavBar from "./components/NavBar";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/routes/PrivateRoute";
+import AdminRoute from "./components/routes/AdminRoute";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 const PageNotFound = () => {
   return <div>PageNotFound</div>;
@@ -23,8 +25,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="" element={<Dashboard />} />
+          <Route path="user" element={<Dashboard />} />
         </Route>
+
+        <Route path="/dashboard" element={<AdminRoute />}>
+          <Route path="admin" element={<AdminDashboard />} />
+        </Route>
+
         <Route path="*" element={<PageNotFound />} replace />
       </Routes>
     </BrowserRouter>
