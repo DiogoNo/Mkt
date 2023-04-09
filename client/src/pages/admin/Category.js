@@ -2,11 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
+import CategoryForm from "../../components/forms/CategoryForm";
 
 const AdminCategory = () => {
   const [name, setName] = useState();
+  const [updateName, setUpdateName] = useState();
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState({});
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -22,6 +26,45 @@ const AdminCategory = () => {
         setLoading(true);
       }
     } catch (error) {}
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(`/category/${category._id}`, {
+        name: updateName,
+      });
+
+      if (data?.error) {
+        toast.error(data?.error);
+      } else {
+        setUpdateName("");
+        setCategory(null);
+        loadCategories();
+        setVisible(false);
+        toast.success("Editado");
+      }
+    } catch (error) {
+      toast.error("Erro ao Editadar");
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.delete(`/category/${category._id}`);
+
+      if (data?.error) {
+        toast.error(data?.error);
+      } else {
+        setCategory(null);
+        loadCategories();
+        setVisible(false);
+        toast.success("Deletado");
+      }
+    } catch (error) {
+      toast.error("Erro ao Deletar");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -51,31 +94,40 @@ const AdminCategory = () => {
         CreateProduct
       </NavLink>
 
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="form-control p-3"
-            placeholder="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button className="btn btn-primary" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
+      <CategoryForm
+        value={name}
+        setValue={setName}
+        handleSubmit={handleSubmit}
+      />
+
       <>
         {!loading ? (
           <div className="col ">
-            {categories?.map((category) => (
+            {categories?.map((categ) => (
               <button
-                key={category._id}
+                key={categ._id}
                 className="btn btn-outline-primary m-3"
+                onClick={() => {
+                  setCategory(categ);
+                  setUpdateName(categ?.name);
+                  setVisible(categ?.name === category?.name ? !visible : true);
+                }}
               >
-                {category.name}
+                {categ?.name}
               </button>
             ))}
+
+            {visible && (
+              <>
+                <CategoryForm
+                  value={updateName}
+                  setValue={setUpdateName}
+                  handleSubmit={handleUpdate}
+                  edit
+                  handleDelete={handleDelete}
+                />
+              </>
+            )}
           </div>
         ) : (
           <div>loading</div>
