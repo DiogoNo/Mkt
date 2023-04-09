@@ -8,6 +8,10 @@ import NavBar from "./components/NavBar";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/routes/PrivateRoute";
 
+const PageNotFound = () => {
+  return <div>PageNotFound</div>;
+};
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -21,6 +25,7 @@ const App = () => {
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="" element={<Dashboard />} />
         </Route>
+        <Route path="*" element={<PageNotFound />} replace />
       </Routes>
     </BrowserRouter>
   );
