@@ -29,6 +29,7 @@ export const login = async (req, res) => {
       if (error.length > 0) {
         return res.json({ error });
       }
+      const user = await User.findOne({ email });
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
       res.json({ user: { name: user.name, email: user.email, role: user.role, address: user.address }, token });
     } catch (err) {
