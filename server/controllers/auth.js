@@ -38,7 +38,5 @@ export const login = async (req, res) => {
   };
 
 export const secret = async (req, res) => {
-    res.json({ currentUser: req.user })
-}
-
-
+  res.json({ currentUser: req.user });
+};
