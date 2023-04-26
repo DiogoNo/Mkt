@@ -41,7 +41,6 @@ const productSchema = new Schema(
       contentType: String
     },
     shipping: {
-      required: false,
       type: Boolean
     }
   },

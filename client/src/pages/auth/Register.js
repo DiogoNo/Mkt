@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,6 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +27,10 @@ const Register = () => {
         localStorage.setItem("auth", JSON.stringify(data));
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("registrado");
-        navigate("/dashboard");
+        navigate(
+          location.state ||
+            `/dashboard/${data?.user?.role === 1 ? "admin" : "user"}`
+        );
       }
     } catch (error) {
       toast.error("Erro ao cadastrar");
