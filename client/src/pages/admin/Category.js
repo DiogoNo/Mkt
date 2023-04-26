@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
-import CategoryForm from "../../components/forms/CategoryForm";
+
+const CategoryForm = lazy(() => import("../../components/forms/CategoryForm"));
 
 const AdminCategory = () => {
-  const [name, setName] = useState();
-  const [updateName, setUpdateName] = useState();
+  const [name, setName] = useState("");
+  const [updateName, setUpdateName] = useState("");
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState({});
   const [loading, setLoading] = useState(false);
@@ -93,12 +94,17 @@ const AdminCategory = () => {
       <NavLink className="nav-link" to="/dashboard/admin/product">
         CreateProduct
       </NavLink>
+      <NavLink className="nav-link" to="/dashboard/admin/products">
+        Products
+      </NavLink>
 
-      <CategoryForm
-        value={name}
-        setValue={setName}
-        handleSubmit={handleSubmit}
-      />
+      <Suspense fallback={"loading category form"}>
+        <CategoryForm
+          value={name}
+          setValue={setName}
+          handleSubmit={handleSubmit}
+        />
+      </Suspense>
 
       <>
         {!loading ? (

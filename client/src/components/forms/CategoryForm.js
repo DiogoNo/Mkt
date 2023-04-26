@@ -19,7 +19,11 @@ const CategoryForm = ({
       </button>
 
       {edit && handleDelete && (
-        <button className="btn btn-outline-danger m-3" onClick={handleDelete}>
+        <button
+          type="button"
+          className="btn btn-outline-danger m-3"
+          onClick={handleDelete}
+        >
           Delete
         </button>
       )}

@@ -5,7 +5,7 @@ import formidable from 'express-formidable';
 const router = express.Router();
 
 router.post('/product', requireSingin, isAdmin, formidable(), create);
-router.put('/product/:productId', requireSingin, formidable(), isAdmin, update);
+router.put('/product/:productId', requireSingin, isAdmin, formidable(), update);
 router.delete('/product/:productId', requireSingin, isAdmin, remove);
 router.get('/product/:slug', read);
 router.get('/products', list);

@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-const AdminProduct = () => {
+const AdminProductUpdate = () => {
   const [categories, setCategories] = useState([]);
-  const [photo, setPhoto] = useState("");
+  const [id, setId] = useState({});
+  const [photo, setPhoto] = useState();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -13,11 +14,33 @@ const AdminProduct = () => {
   const [shipping, setShipping] = useState("");
   const [quantity, setQuantity] = useState("");
 
+  console.log(shipping);
+
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     loadCategories();
   }, []);
+
+  useEffect(() => {
+    loadProduct();
+  }, []);
+
+  const loadProduct = async () => {
+    try {
+      const { data } = await axios.get(`/product/${params.slug}`);
+      if (data) {
+        setId(data._id);
+        setName(data.name);
+        setDescription(data.description);
+        setPrice(data.price);
+        setCategory(data.category._id);
+        setShipping(data.shipping);
+        setQuantity(data.quantity);
+      }
+    } catch (error) {}
+  };
 
   const loadCategories = async () => {
     try {
@@ -28,28 +51,46 @@ const AdminProduct = () => {
     } catch (error) {}
   };
 
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const productData = new FormData();
-      productData.append("photo", photo);
+      photo && productData.append("photo", photo);
       productData.append("name", name);
       productData.append("description", description);
       productData.append("category", category);
-      productData.append("shipping", shipping);
+      productData.append("shipping", shipping === "1" ? true : false);
       productData.append("quantity", quantity);
       productData.append("price", price);
 
-      const { data } = await axios.post(`/product`, productData);
+      console.log([...productData]);
+
+      const { data } = await axios.put(`/product/${id}`, productData);
 
       if (data?.error) {
         toast.error(data?.error);
       } else {
-        toast.success("Criado");
+        toast.success("Editado");
         navigate("/dashboard/admin/products");
       }
     } catch (error) {
-      toast.error("Erro ao Criar");
+      toast.error("Erro tentar dar o update");
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.delete(`/product/${id}`);
+
+      if (data?.error) {
+        toast.error(data?.error);
+      } else {
+        toast.success("Deletado");
+        navigate("/dashboard/admin/products");
+      }
+    } catch (error) {
+      toast.error("Erro tentar deletar");
     }
   };
 
@@ -66,17 +107,28 @@ const AdminProduct = () => {
       </NavLink>
 
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleUpdate}>
           <input
             type="file"
             name="photo"
             accept="image/*"
             onChange={(e) => setPhoto(e.target.files[0])}
           />
-          {photo && (
+          {photo ? (
             <div>
               <img
                 src={URL.createObjectURL(photo)}
+                alt="productPhoto"
+                className="img img-responsive"
+                height="100px"
+              />
+            </div>
+          ) : (
+            <div>
+              <img
+                src={`${
+                  process.env.REACT_APP_API
+                }/product/photo/${id}?${new Date().getTime()}`}
                 alt="productPhoto"
                 className="img img-responsive"
                 height="100px"
@@ -87,6 +139,7 @@ const AdminProduct = () => {
             onChange={(event) => {
               setCategory(event.target.value);
             }}
+            value={category}
           >
             <option>Please choose one option</option>
             {categories.map((option) => {
@@ -107,7 +160,7 @@ const AdminProduct = () => {
           <textarea
             type="text"
             className="form-control p-3"
-            placeholder="description"
+            placeholder="descriptioniçao"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -126,6 +179,7 @@ const AdminProduct = () => {
             min="1"
             onChange={(e) => setQuantity(e.target.value)}
           />
+
           <select
             onChange={(event) => {
               setShipping(event.target.value);
@@ -135,7 +189,10 @@ const AdminProduct = () => {
             <option value="1">yes</option>
           </select>
           <button className="btn btn-primary" type="submit">
-            {"Submit"}
+            {"Update"}
+          </button>
+          <button className="btn btn-danger" onClick={handleDelete}>
+            {"Delete"}
           </button>
         </form>
       </div>
@@ -143,4 +200,4 @@ const AdminProduct = () => {
   );
 };
 
-export default AdminProduct;
+export default AdminProductUpdate;

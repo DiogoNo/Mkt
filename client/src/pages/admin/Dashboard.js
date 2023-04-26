@@ -1,9 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../context/auth";
 
 const AdminDashboard = () => {
-  const [auth, setAuth] = useAuth();
-
   return (
     <div className="App">
       <NavLink className="nav-link" to="/dashboard/admin/category">
@@ -11,6 +8,9 @@ const AdminDashboard = () => {
       </NavLink>
       <NavLink className="nav-link" to="/dashboard/admin/product">
         CreateProduct
+      </NavLink>
+      <NavLink className="nav-link" to="/dashboard/admin/products">
+        Products
       </NavLink>
     </div>
   );
