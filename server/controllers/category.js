@@ -14,15 +14,6 @@ export const create = async (req, res) => {
     } catch (error) {
         return res.status(404).json(error)
     }
-    const existingCategory = await Category.findOne({ name });
-    if (existingCategory) {
-      return res.json({ error: 'Already exist' });
-    }
-    const category = await new Category({ name, slug: slugify(name) }).save();
-    res.json(category);
-  } catch (error) {
-    return res.status(404).json(error);
-  }
 };
 
 export const update = async (req, res) => {
