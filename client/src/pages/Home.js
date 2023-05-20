@@ -1,13 +1,30 @@
-import { useAuth } from "../context/auth";
+import axios from "axios";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
-const Home = () => {
-  const [auth, setAuth] = useAuth();
+export default function Home() {
+  const [products, setProducts] = useState();
+
+  const loadproducts = async () => {
+    try {
+      const { data } = await axios.get("/products");
+      setProducts(data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    loadproducts();
+  }, []);
 
   return (
-    <div className="App">
-      <p></p>
+    <div>
+      {products?.map((product) => (
+        <div key={product._id}>
+          <div>{product.name}</div>
+          <div>{moment(product.createdAt).fromNow()}</div>
+          <div>{product.sold}</div>
+        </div>
+      ))}
     </div>
   );
-};
-
-export default Home;
+}
