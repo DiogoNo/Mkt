@@ -31,7 +31,7 @@ export const register = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return res.status(400).json(err);
   }
 };
 
@@ -66,7 +66,7 @@ export const login = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return res.status(400).json(err);
   }
 };
 

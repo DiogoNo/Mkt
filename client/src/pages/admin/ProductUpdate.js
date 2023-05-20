@@ -14,8 +14,6 @@ const AdminProductUpdate = () => {
   const [shipping, setShipping] = useState("");
   const [quantity, setQuantity] = useState("");
 
-  console.log(shipping);
-
   const navigate = useNavigate();
   const params = useParams();
 
@@ -62,8 +60,6 @@ const AdminProductUpdate = () => {
       productData.append("shipping", shipping === "1" ? true : false);
       productData.append("quantity", quantity);
       productData.append("price", price);
-
-      console.log([...productData]);
 
       const { data } = await axios.put(`/product/${id}`, productData);
 
