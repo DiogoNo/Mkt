@@ -7,7 +7,9 @@ import {
   list,
   read,
   photo,
-  filteredProducts
+  filteredProducts,
+  productsCount,
+  productsPagination
 } from '../controllers/product.js';
 import formidable from 'express-formidable';
 const router = express.Router();
@@ -19,5 +21,7 @@ router.get('/product/:slug', read);
 router.get('/products', list);
 router.get('/product/photo/:productId', photo);
 router.post('/products-filtered', filteredProducts);
+router.get('/products-count', productsCount);
+router.get('/products/:page', productsPagination);
 
 export default router;
