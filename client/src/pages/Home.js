@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 const Home = () => {
   const [products, setProducts] = useState();
 
-  const loadproducts = async () => {
+  const loadProducts = async () => {
     try {
       const { data } = await axios.get("/products");
       setProducts(data);
@@ -13,7 +13,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    loadproducts();
+    loadProducts();
   }, []);
 
   return (
