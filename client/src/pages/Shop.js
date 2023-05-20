@@ -41,8 +41,6 @@ const Shop = () => {
     }
   };
 
-  console.log(radio);
-
   return (
     <div className="container-fluid">
       <div className="row">
