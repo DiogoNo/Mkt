@@ -83,7 +83,7 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const { productId } = req.params;
-    const removed = await Product.findOneAndDelete(productId).select('-photo');
+    const removed = await Product.findByIdAndDelete(productId).select('-photo');
     res.json(removed);
   } catch (error) {
     return res.status(400).json(error);
