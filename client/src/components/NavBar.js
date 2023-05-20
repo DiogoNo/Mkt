@@ -19,6 +19,11 @@ const NavBar = () => {
             Home
           </a>
         </li>
+        <li className="nav-item">
+          <a className="nav-link active" aria-current="page" href="/shop">
+            SHOP
+          </a>
+        </li>
         {!auth?.user ? (
           <>
             <li className="nav-item">

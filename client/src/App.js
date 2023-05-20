@@ -14,6 +14,7 @@ import UserOrders from "./pages/user/Orders";
 import AdminProducts from "./pages/admin/Products";
 import AdminProductUpdate from "./pages/admin/ProductUpdate";
 import { lazy } from "react";
+import Shop from "./pages/Shop";
 
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Dashboard = lazy(() => import("./pages/user/Dashboard"));
@@ -29,6 +30,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 

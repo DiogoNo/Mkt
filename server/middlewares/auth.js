@@ -23,6 +23,6 @@ export const isAdmin = async (req, res, next) => {
       next();
     }
   } catch (err) {
-    console.log(err);
+    return res.status(401).send('Unauthorized');
   }
 };
