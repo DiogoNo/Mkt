@@ -1,8 +1,9 @@
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
 
-export default function Home() {
+const Home = () => {
   const [products, setProducts] = useState();
 
   const loadproducts = async () => {
@@ -19,12 +20,11 @@ export default function Home() {
   return (
     <div>
       {products?.map((product) => (
-        <div key={product._id}>
-          <div>{product.name}</div>
-          <div>{moment(product.createdAt).fromNow()}</div>
-          <div>{product.sold}</div>
+        <div className="card mb-3" key={product._id}>
+          <ProductCard params={product} />
         </div>
       ))}
     </div>
   );
-}
+};
+export default Home;
