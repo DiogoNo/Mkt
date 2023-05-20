@@ -18,8 +18,6 @@ export const create = async (req, res) => {
         res.json({ error: 'Category is required' });
       case !quantity.trim():
         res.json({ error: 'Quantity is required' });
-      case !shipping.trim():
-        res.json({ error: 'Shipping is required' });
       case photo && photo.size > 100000:
         res.json({ error: 'Shipping is required' });
     }
@@ -54,8 +52,6 @@ export const update = async (req, res) => {
         res.json({ error: 'Category is required' });
       case !quantity.trim():
         res.json({ error: 'Quantity is required' });
-      case !shipping.trim():
-        res.json({ error: 'Shipping is required' });
       case photo && photo.size > 100000:
         res.json({ error: 'Shipping is required' });
     }
