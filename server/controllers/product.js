@@ -161,6 +161,7 @@ export const productsPagination = async (req, res) => {
       .skip((page - 1) * perPage)
       .limit(6)
       .sort({ createdAt: -1 });
+    res.json(products);
   } catch (error) {
     res.status(400).json(error);
   }
