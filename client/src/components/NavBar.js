@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
+import Search from "./forms/Search";
 
 const NavBar = () => {
   const [auth, setAuth] = useAuth();
@@ -23,6 +24,9 @@ const NavBar = () => {
           <a className="nav-link active" aria-current="page" href="/shop">
             SHOP
           </a>
+        </li>
+        <li className="nav-item">
+          <Search />
         </li>
         {!auth?.user ? (
           <>
