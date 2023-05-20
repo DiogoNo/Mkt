@@ -5,7 +5,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 const AdminProductUpdate = () => {
   const [categories, setCategories] = useState([]);
-  const [id, setId] = useState({});
+  const [id, setId] = useState();
   const [photo, setPhoto] = useState();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -27,7 +27,7 @@ const AdminProductUpdate = () => {
 
   const loadProduct = async () => {
     try {
-      const { data } = await axios.get(`/product/${params.slug}`);
+      const { data } = await axios.get(`/product/${params?.slug}`);
       if (data) {
         setId(data._id);
         setName(data.name);
@@ -37,7 +37,9 @@ const AdminProductUpdate = () => {
         setShipping(data.shipping);
         setQuantity(data.quantity);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   const loadCategories = async () => {
@@ -46,7 +48,9 @@ const AdminProductUpdate = () => {
       if (data) {
         setCategories(data);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   const handleUpdate = async (e) => {
@@ -120,16 +124,18 @@ const AdminProductUpdate = () => {
               />
             </div>
           ) : (
-            <div>
-              <img
-                src={`${
-                  process.env.REACT_APP_API
-                }/product/photo/${id}?${new Date().getTime()}`}
-                alt="productPhoto"
-                className="img img-responsive"
-                height="100px"
-              />
-            </div>
+            id && (
+              <div>
+                <img
+                  src={`${
+                    process.env.REACT_APP_API
+                  }/product/photo/${id}?${new Date().getTime()}`}
+                  alt="productPhoto"
+                  className="img img-responsive"
+                  height="100px"
+                />
+              </div>
+            )
           )}
           <select
             onChange={(event) => {
