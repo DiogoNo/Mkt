@@ -175,7 +175,22 @@ export const productsSearch = async (req, res) => {
       .select('-photo')
       .limit(6)
       .sort({ createdAt: -1 });
-    console.log(products);
+    res.json(products);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const productsByCategory = async (req, res) => {
+  try {
+    const { productId, categoryId } = req.params;
+    const products = await Product.find({
+      _id: { $ne: productId },
+      category: categoryId
+    })
+      .select('-photo')
+      .populate('category')
+      .limit(3);
     res.json(products);
   } catch (error) {
     res.status(400).json(error);
