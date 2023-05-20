@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { rangePrice } from "../utils/consts";
+import { toast } from "react-hot-toast";
 
 const Shop = () => {
   const [categories, setCategories] = useState();
@@ -20,12 +21,30 @@ const Shop = () => {
     try {
       const { data } = await axios.get("/categories");
       setCategories(data);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Erro ao  Filtrar");
+    }
+  };
+
+  const loadFielteredProducts = async () => {
+    try {
+      const { data } = await axios.post("/products-filtered", {
+        checked,
+        radio,
+      });
+      setProducts(data);
+    } catch (error) {
+      toast.error("Erro ao  Filtrar");
+    }
   };
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    if (checked.length || radio.length) {
+      loadFielteredProducts();
+    } else {
+      loadProducts();
+    }
+  }, [radio, checked]);
 
   useEffect(() => {
     loadCategories();
