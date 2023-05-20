@@ -47,7 +47,7 @@ const Home = () => {
     <div>
       {products?.map((product) => (
         <div className="card mb-3" key={product._id}>
-          <ProductCard product={product} />
+          <ProductCard list product={product} />
         </div>
       ))}
       <div className="container-fluid">
