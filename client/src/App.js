@@ -7,6 +7,7 @@ import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
+import Product from "./pages/Product";
 import UserProfile from "./pages/user/Profile";
 import UserOrders from "./pages/user/Orders";
 
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/product/:slug" element={<Product />} />
 
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
