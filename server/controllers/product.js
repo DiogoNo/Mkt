@@ -166,3 +166,22 @@ export const productsPagination = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+export const productsSearch = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } }
+      ]
+    })
+      .select('-photo')
+      .limit(6)
+      .sort({ createdAt: -1 });
+    console.log(products);
+    res.json(products);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
