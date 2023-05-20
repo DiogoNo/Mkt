@@ -10,7 +10,8 @@ import {
   filteredProducts,
   productsCount,
   productsPagination,
-  productsSearch
+  productsSearch,
+  productsByCategory
 } from '../controllers/product.js';
 import formidable from 'express-formidable';
 const router = express.Router();
@@ -25,5 +26,6 @@ router.post('/products-filtered', filteredProducts);
 router.get('/products-count', productsCount);
 router.get('/products/:page', productsPagination);
 router.get('/products/search/:keyword', productsSearch);
+router.get('/products/:productId/:categoryId', productsByCategory);
 
 export default router;
