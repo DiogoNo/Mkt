@@ -18,8 +18,6 @@ const Home = () => {
     loadProductsPaginated();
   }, [page]);
 
-  console.log(products && products.length < count);
-
   const loadProductsPaginated = async () => {
     try {
       setLoading(true);
