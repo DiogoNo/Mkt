@@ -1,19 +1,26 @@
-const ProductCard = ({ params }) => {
+import { useNavigate } from "react-router-dom";
+const ProductCard = ({ product, list }) => {
+  const navigate = useNavigate();
   return (
-    <div key={params._id}>
+    <div key={product._id}>
       <img
         src={`${process.env.REACT_APP_API}/product/photo/${
-          params._id
+          product._id
         }?${new Date().getTime()}`}
-        alt={params.name}
+        alt={product.name}
         className="img img-responsive"
         height="100px"
       />
-      <div>{params.name}</div>
+      <div>{product.name}</div>
       <div className="d-flex justify-content-between">
-        <button className="btn btn-primary col card-button">
-          View Product
-        </button>
+        {list && (
+          <button
+            className="btn btn-primary col card-button"
+            onClick={() => navigate(`/product/${product.slug}`)}
+          >
+            View Product
+          </button>
+        )}
         <button className="btn btn-secondary col card-button">AddCart</button>
       </div>
     </div>

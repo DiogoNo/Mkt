@@ -16,7 +16,7 @@ const productSchema = new Schema(
       lowercase: true
     },
     description: {
-      type: String,
+      type: {},
       trim: true,
       required: true
     },

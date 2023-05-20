@@ -11,7 +11,7 @@ const Search = () => {
           <div>
             {values?.result?.map((product) => (
               <div className="card mb-3" key={product._id}>
-                <ProductCard params={product} />
+                <ProductCard list product={product} />
               </div>
             ))}
           </div>
