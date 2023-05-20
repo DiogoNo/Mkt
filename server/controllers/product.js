@@ -141,3 +141,28 @@ export const filteredProducts = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+export const productsCount = async (req, res) => {
+  try {
+    const total = await Product.find({}).estimatedDocumentCount();
+    res.json(total);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const productsPagination = async (req, res) => {
+  try {
+    const perPage = 6;
+    const page = req.params.page ? req.params.page : 1;
+
+    const products = await Product.find({})
+      .select('-photo')
+      .skip((page - 1) * perPage)
+      .limit(6)
+      .sort({ createdAt: -1 });
+    res.json(products);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
