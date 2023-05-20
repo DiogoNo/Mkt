@@ -96,6 +96,14 @@ const Shop = () => {
               </div>
             ))}
           </div>
+          <div className="row">
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => window.location.reload()}
+            >
+              Reset
+            </button>
+          </div>
         </div>
         <div className="col-md-3">
           <div>
