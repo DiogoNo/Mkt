@@ -10,6 +10,7 @@ const ProductCard = ({ product, list, isCart }) => {
     let index = myCart.findIndex((item) => item._id === productId);
     myCart.splice(index, 1);
     setCart(myCart);
+    localStorage.setItem("cart", JSON.stringify(myCart));
   };
 
   return (
@@ -37,6 +38,7 @@ const ProductCard = ({ product, list, isCart }) => {
           <button
             onClick={() => {
               setCart([...cart, product]);
+              localStorage.setItem("cart", JSON.stringify([...cart, product]));
               toast.success("Adicionado ao carrinho");
             }}
             className="btn btn-secondary col card-button"
