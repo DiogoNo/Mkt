@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
+import client from "../../utils/client";
 
 const AdminProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -21,7 +21,7 @@ const AdminProduct = () => {
 
   const loadCategories = async () => {
     try {
-      const { data } = await axios.get("/categories");
+      const { data } = await client.get("/categories");
       if (data) {
         setCategories(data);
       }
@@ -40,7 +40,7 @@ const AdminProduct = () => {
       productData.append("quantity", quantity);
       productData.append("price", price);
 
-      const { data } = await axios.post(`/product`, productData);
+      const { data } = await client.post(`/product`, productData);
 
       if (data?.error) {
         toast.error(data?.error);

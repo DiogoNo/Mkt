@@ -35,6 +35,11 @@ export const register = async (req, res) => {
   }
 };
 
+export const logout = (_, res) => {
+  res.clearCookie('token');
+  return res.end();
+};
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -55,6 +60,7 @@ export const login = async (req, res) => {
       }
 
       const token = jwt.sign({ _id: equalsEmail._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      res.cookie('token', token, { httpOnly: true, expiresIn: '7d' });
       res.json({
         user: {
           name: equalsEmail.name,

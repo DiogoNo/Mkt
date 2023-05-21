@@ -1,13 +1,15 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import Search from "./forms/Search";
+import client from "../utils/client";
 
 const NavBar = () => {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem("auth");
+    await client.get("/logout");
     setAuth({ ...auth, user: null, token: null });
     navigate("/login");
   };
