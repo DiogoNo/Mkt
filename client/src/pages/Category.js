@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
-const Product = () => {
+const Category = () => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState({});
   const [loading, setLoading] = useState({});
@@ -38,4 +38,4 @@ const Product = () => {
     </div>
   );
 };
-export default Product;
+export default Category;

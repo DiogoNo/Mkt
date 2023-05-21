@@ -11,6 +11,7 @@ import Product from "./pages/Product";
 import Category from "./pages/Category";
 import UserProfile from "./pages/user/Profile";
 import UserOrders from "./pages/user/Orders";
+import Cart from "./pages/Cart.js";
 
 import AdminProducts from "./pages/admin/Products";
 import AdminProductUpdate from "./pages/admin/ProductUpdate";
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/product/:slug" element={<Product />} />
         <Route path="/category/:slug" element={<Category />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
