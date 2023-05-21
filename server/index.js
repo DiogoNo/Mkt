@@ -5,7 +5,6 @@ import express from 'express';
 import morgan from 'morgan';
 import category from './routes/category.js';
 import user from './routes/user.js';
-import cart from './routes/cart.js';
 import product from './routes/product.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -40,7 +39,6 @@ app.use('/api', auth);
 app.use('/api', category);
 app.use('/api', product);
 app.use('/api', user);
-app.use('/api', cart);
 app.use(errors());
 
 app.listen(8000, () => {

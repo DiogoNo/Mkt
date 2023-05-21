@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, register, secret, logout } from '../controllers/auth.js';
+import { login, register, secret, logout, profileUpdate } from '../controllers/auth.js';
 import { requireSingin, isAdmin } from '../middlewares/auth.js';
 const router = express.Router();
 
@@ -12,6 +12,7 @@ router.get('/auth-check', requireSingin, (req, res) => {
 router.get('/admin-check', requireSingin, isAdmin, (req, res) => {
   res.json({ ok: true });
 });
+router.put('/profile', requireSingin, profileUpdate);
 router.get('/secret', requireSingin, isAdmin, secret);
 
 export default router;
