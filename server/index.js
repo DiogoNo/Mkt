@@ -8,6 +8,8 @@ import user from './routes/user.js';
 import cart from './routes/cart.js';
 import product from './routes/product.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { errors } from 'celebrate';
 
 const app = express();
 
@@ -26,7 +28,9 @@ mongoose
   .catch((err) => console.log('foi nao', err));
 
 //middlewares
-app.use(cors());
+
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -37,6 +41,7 @@ app.use('/api', category);
 app.use('/api', product);
 app.use('/api', user);
 app.use('/api', cart);
+app.use(errors());
 
 app.listen(8000, () => {
   console.log('localhost:8000');

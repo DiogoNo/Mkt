@@ -2,6 +2,7 @@ import axios from "axios";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
+import client from "../../utils/client";
 
 const CategoryForm = lazy(() => import("../../components/forms/CategoryForm"));
 
@@ -71,7 +72,7 @@ const AdminCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`/category`, {
+      const { data } = await client.post(`/category`, {
         name,
       });
 
