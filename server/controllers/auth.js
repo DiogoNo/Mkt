@@ -23,7 +23,7 @@ export const register = async (req, res) => {
       return res.json({ error: 'password Invalid' });
     } else {
       const hash = await hashPassword(password);
-      const user = await new User({ name, email, password: hash }).save();
+      const user = await new User({ name, email, password: hash, address: '' }).save();
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
       res.json({
         user: { name: user.name, email: user.email, role: user.role, address: user.address },
@@ -74,6 +74,29 @@ export const login = async (req, res) => {
   } catch (err) {
     return res.status(400).json(err);
   }
+};
+
+export const profileUpdate = async (req, res) => {
+  try {
+    const { name, password, address } = req.body;
+    const user = await User.findById(req.user._id);
+    if (password && password.length < 6) {
+      return res.json({ error: 'password Invalid' });
+    }
+    const hash = password ? await hashPassword(password) : undefined;
+
+    const updated = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        name: name || user.name,
+        password: hash || user.password,
+        address: address || user.address
+      },
+      { new: true }
+    );
+    updated.password = undefined;
+    res.json(updated);
+  } catch (error) {}
 };
 
 export const secret = async (req, res) => {
