@@ -11,7 +11,9 @@ import {
   productsCount,
   productsPagination,
   productsSearch,
-  productsByCategory
+  productsByCategory,
+  getToken,
+  processPay
 } from '../controllers/product.js';
 import formidable from 'express-formidable';
 const router = express.Router();
@@ -27,5 +29,8 @@ router.get('/products-count', productsCount);
 router.get('/products/:page', productsPagination);
 router.get('/products/search/:keyword', productsSearch);
 router.get('/products/:productId/:categoryId', productsByCategory);
+
+router.get('/braintree/token', getToken);
+router.post('/braintree/payment', processPay);
 
 export default router;
