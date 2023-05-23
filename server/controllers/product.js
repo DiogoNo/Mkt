@@ -1,6 +1,14 @@
 import slugify from 'slugify';
+import braintree from 'braintree';
 import fs from 'fs';
 import Product from '../models/product.js';
+
+const gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_MERCHANT_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_MERCHANT_ID_PRIVATE_KEY
+});
 
 export const create = async (req, res) => {
   try {
@@ -192,6 +200,51 @@ export const productsByCategory = async (req, res) => {
       .populate('category')
       .limit(3);
     res.json(products);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const getToken = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.json(500).send(err);
+      } else {
+        res.send(response);
+      }
+    });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const processPay = async (req, res) => {
+  try {
+    const { nonce, cart } = req.body;
+
+    let total = 0;
+    cart.map((i) => {
+      total += i.price;
+    });
+
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true
+        }
+      },
+      (err, result) => {
+        if (result) {
+          res.send(result);
+        } else {
+          res.json(500).send(err);
+        }
+      }
+    );
+    console.log(newTransaction);
   } catch (error) {
     res.status(400).json(error);
   }
