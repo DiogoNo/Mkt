@@ -12,6 +12,7 @@ const Cart = () => {
   const [auth, setAuth] = useAuth({});
   const [clientToken, setClientToken] = useState("");
   const [instance, setInstance] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const getClientToken = async () => {
@@ -35,13 +36,17 @@ const Cart = () => {
 
   const handleBuy = async () => {
     try {
+      setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post("/braintree/payment", { nonce, cart });
       localStorage.removeItem("cart");
+      setLoading(false);
       setCart([]);
       navigate("/dashboard/user/orders");
       toast.success("Pagamento realizado");
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,6 +94,7 @@ const Cart = () => {
               onInstance={(instance) => setInstance(instance)}
             />
             <button
+              disabled={loading || !auth?.user?.address}
               className="btn btn-outline-primary"
               onClick={() => handleBuy()}
             >

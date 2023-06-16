@@ -16,7 +16,18 @@ router.post(
   ),
   create
 );
-router.put('/category/:categoryId', requireSingin, isAdmin, update);
+router.put(
+  '/category/:categoryId',
+  requireSingin,
+  isAdmin,
+  celebrate(
+    {
+      body: Joi.object().keys({ name: Joi.string().required(), categoryId: Joi.required() })
+    },
+    { abortEarly: false }
+  ),
+  update
+);
 router.delete('/category/:categoryId', requireSingin, isAdmin, remove);
 router.get('/category/:slug', read);
 router.get('/categories', list);

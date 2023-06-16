@@ -7,6 +7,7 @@ import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
+import AdminOrders from "./pages/admin/Orders";
 import Product from "./pages/Product";
 import Category from "./pages/Category";
 import UserProfile from "./pages/user/Profile";
@@ -58,6 +59,7 @@ const App = () => {
             path="admin/product/update/:slug"
             element={<AdminProductUpdate />}
           />
+          <Route path="admin/orders" element={<AdminOrders />} />
         </Route>
 
         <Route path="*" element={<PageNotFound />} replace />
