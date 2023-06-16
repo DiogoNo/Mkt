@@ -2,6 +2,7 @@ import User from '../models/user.js';
 import { comparePassword, hashPassword } from '../helpers/auth.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Order from '../models/order.js';
 
 dotenv.config();
 
@@ -101,4 +102,27 @@ export const profileUpdate = async (req, res) => {
 
 export const secret = async (req, res) => {
   res.json({ currentUser: req.user });
+};
+
+export const orders = async (req, res) => {
+  try {
+    const orders = await Order.find({ buyer: req.user._id })
+      .populate('products', '-photo')
+      .populate('buyer', 'name');
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const allOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate('products', '-photo')
+      .populate('buyer', 'name')
+      .sort({ createdAt: '-1' });
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import { toast } from "react-hot-toast";
-const ProductCard = ({ product, list, isCart }) => {
+const ProductCard = ({ product, list, isCart, isOrder }) => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
 
@@ -35,16 +35,21 @@ const ProductCard = ({ product, list, isCart }) => {
               View Product
             </button>
           )}
-          <button
-            onClick={() => {
-              setCart([...cart, product]);
-              localStorage.setItem("cart", JSON.stringify([...cart, product]));
-              toast.success("Adicionado ao carrinho");
-            }}
-            className="btn btn-secondary col card-button"
-          >
-            AddCart
-          </button>
+          {!isOrder && (
+            <button
+              onClick={() => {
+                setCart([...cart, product]);
+                localStorage.setItem(
+                  "cart",
+                  JSON.stringify([...cart, product])
+                );
+                toast.success("Adicionado ao carrinho");
+              }}
+              className="btn btn-secondary col card-button"
+            >
+              AddCart
+            </button>
+          )}
         </div>
       )}
       {isCart && (

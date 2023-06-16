@@ -2,6 +2,12 @@ import slugify from 'slugify';
 import braintree from 'braintree';
 import fs from 'fs';
 import Product from '../models/product.js';
+import Order from '../models/order.js';
+import dotenv from 'dotenv';
+import sgMail from '@sendgrid/mail';
+
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 const gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
@@ -12,31 +18,10 @@ const gateway = new braintree.BraintreeGateway({
 
 export const create = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping } = req.fields;
-    const { photo } = req.files;
-
-    switch (true) {
-      case !name.trim():
-        res.json({ error: 'Name is required' });
-      case !description.trim():
-        res.json({ error: 'description is required' });
-      case !price.trim():
-        res.json({ error: 'Price is required' });
-      case !category.trim():
-        res.json({ error: 'Category is required' });
-      case !quantity.trim():
-        res.json({ error: 'Quantity is required' });
-      case photo && photo.size > 100000:
-        res.json({ error: 'Shipping is required' });
-    }
-
-    const product = new Product({ ...req.fields, slug: slugify(name) });
-
-    if (photo) {
-      product.photo.data = fs.readFileSync(photo.path);
-      product.photo.contentType = photo.type;
-    }
-
+    const { fields, files } = req;
+    const product = new Product({ ...fields, slug: slugify(fields.name) });
+    product.photo.data = fs.readFileSync(files.photo.path);
+    product.photo.contentType = files.photo.type;
     await product.save();
     res.json(product);
   } catch (error) {
@@ -46,36 +31,17 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping } = req.fields;
-    const { photo } = req.files;
-
-    switch (true) {
-      case !name.trim():
-        res.json({ error: 'Name is required' });
-      case !description.trim():
-        res.json({ error: 'description is required' });
-      case !price.trim():
-        res.json({ error: 'Price is required' });
-      case !category.trim():
-        res.json({ error: 'Category is required' });
-      case !quantity.trim():
-        res.json({ error: 'Quantity is required' });
-      case photo && photo.size > 100000:
-        res.json({ error: 'Shipping is required' });
-    }
-
+    const { fields, files } = req;
     const product = await Product.findByIdAndUpdate(
       req.params.productId,
-      { ...req.fields, slug: slugify(name) },
+      { ...fields, slug: slugify(fields.name) },
       { new: true }
     )
       .select('-photo')
       .populate('category');
 
-    if (photo) {
-      product.photo.data = fs.readFileSync(photo.path);
-      product.photo.contentType = photo.type;
-    }
+    product.photo.data = fs.readFileSync(files.photo.path);
+    product.photo.contentType = files.photo.type;
 
     await product.save();
     res.json(product);
@@ -238,13 +204,56 @@ export const processPay = async (req, res) => {
       },
       (err, result) => {
         if (result) {
-          res.send(result);
+          new Order({
+            products: cart,
+            payment: result,
+            buyer: req.user._id
+          }).save();
+
+          const bulkOps = cart.map((item) => {
+            return {
+              updateOne: {
+                filter: { _id: item._id },
+                update: { $inc: { quantity: -0, sold: +1 } }
+              }
+            };
+          });
+
+          Product.bulkWrite(bulkOps, {});
+          res.json({ ok: true });
         } else {
           res.json(500).send(err);
         }
       }
     );
-    console.log(newTransaction);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const changeStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true }).populate(
+      'buyer',
+      'email'
+    );
+
+    const emailData = {
+      from: process.env.EMAIL_FROM,
+      to: order.buyer.email,
+      subject: 'Status do pedido atualziado',
+      html: `<h1>status do pedido atualizado para ${status}</h1>`
+    };
+
+    try {
+      await sgMail.send(emailData);
+    } catch (error) {
+      console.log(error);
+    }
+
+    res.json(order);
   } catch (error) {
     res.status(400).json(error);
   }
