@@ -28,15 +28,16 @@ const UserProfile = () => {
         password,
         address,
       });
-      toast.success("Profile updated");
 
       if (data?.error) {
         toast.error("Erro ao atualizar");
       } else {
         setAuth({ ...auth, user: data });
-        const ls = JSON.stringify(localStorage.getItem("auth"));
-        ls.user = data;
-        localStorage.setItem("auth", JSON.stringify(ls));
+
+        localStorage.removeItem("auth");
+
+        localStorage.setItem("auth", JSON.stringify({ ...auth, user: data }));
+        toast.success("Profile updated");
       }
     } catch (error) {}
   };
