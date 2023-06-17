@@ -20,7 +20,7 @@ router.get('/auth-check', requireSingin, (req, res) => {
 router.get('/admin-check', requireSingin, isAdmin, (req, res) => {
   res.json({ ok: true });
 });
-router.put('/profile', profileUpdate);
+router.put('/profile', requireSingin, profileUpdate);
 router.get('/secret', requireSingin, isAdmin, secret);
 router.get('/orders', requireSingin, orders);
 router.get('/all-orders', requireSingin, isAdmin, allOrders);
