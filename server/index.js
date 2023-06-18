@@ -28,7 +28,7 @@ mongoose
 
 //middlewares
 
-app.use(cors({ credentials: true, origin: process.env.CLIENT_URL || 'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
