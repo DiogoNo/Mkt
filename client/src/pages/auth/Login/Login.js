@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useAuth } from "../../context/auth";
+import { useAuth } from "../../../context/auth";
 import { useLocation, useNavigate } from "react-router-dom";
-import client from "../../utils/client";
+import client from "../../../utils/client";
+import "./index.scss";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,25 +37,43 @@ const Login = () => {
   };
 
   return (
-    <div className="App">
+    <div className="d-flex justify-content-center mt-5">
       <form onSubmit={handleSubmit}>
+        <p style={{ fontSize: "8px" }} className="m-1">
+          E-MAIL
+        </p>
         <input
           type="email"
-          className="form-control mb-4 p-2"
-          placeholder="Enter your Email"
+          className="fieldSettings mb-3 "
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <p style={{ fontSize: "8px" }} className="m-1">
+          SENHA
+        </p>
         <input
           type="password"
-          className="form-control mb-4 p-2"
-          placeholder="Enter your Password"
+          className="fieldSettings mb-5 "
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="btn btn-primary" type="submit">
-          Submit
+        <button
+          className="btn border w-100"
+          style={{ color: "#000000", fontSize: "8px" }}
+          onClick={() => navigate("/register")}
+        >
+          CADASTRE-SE
+        </button>
+
+        <button
+          style={{
+            fontSize: "8px",
+          }}
+          className="btn btn-primary mt-2 w-100"
+          type="submit"
+        >
+          ENTRAR
         </button>
       </form>
     </div>

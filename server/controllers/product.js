@@ -65,7 +65,6 @@ export const list = async (req, res) => {
     const all = await Product.find({})
       .select('-photo')
       .populate('category')
-      .limit(10)
       .sort({ createdAt: -1 });
     res.json(all);
   } catch (error) {

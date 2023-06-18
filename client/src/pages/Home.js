@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import useCategory from "../hooks/useCategory";
 import client from "../utils/client";
+import { ReactComponent as Morepage } from "../assets/svg/morepage.svg";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -48,30 +49,37 @@ const Home = () => {
 
   return (
     <div>
-      <div>
+      {/* <div className="d-flex justify-content-center wm-100">
         {categories?.map((c) => (
-          <a key={c._id} href={`/category/${c.slug}`}>
+          <a
+            className="m-1 fs-4"
+            style={{ color: "#a46080", fontWeight: "bolder" }}
+            key={c._id}
+            href={`/category/${c.slug}`}
+          >
             {c.name}
           </a>
         ))}
-      </div>
-      {products?.map((product) => (
-        <div className="card mb-3" key={product._id}>
-          <ProductCard list product={product} />
+      </div> */}
+      <div className="container-fluid ">
+        <div className="row row-cols-auto d-flex justify-content-center">
+          {products?.map((product) => (
+            <div className=" col m-4 " key={product._id}>
+              <ProductCard list product={product} />
+            </div>
+          ))}
         </div>
-      ))}
-      <div className="container-fluid">
+      </div>
+
+      <div className="container-fluid d-flex justify-content-center mb-5">
         {products && products.length < count && (
-          <button
+          <Morepage
             disabled={loading}
             onClick={(e) => {
               e.preventDefault();
               setPage(page + 1);
             }}
-            className="btn btn-primary"
-          >
-            {loading ? "loading" : "load more"}
-          </button>
+          />
         )}
       </div>
     </div>

@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
+import Login from "./pages/auth/Login/Login";
 import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
 import AdminOrders from "./pages/admin/Orders";
@@ -18,7 +18,7 @@ import AdminProducts from "./pages/admin/Products";
 import AdminProductUpdate from "./pages/admin/ProductUpdate";
 import Shop from "./pages/Shop";
 import Search from "./pages/Search";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navBar/NavBar.js";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 
